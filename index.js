@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT;
 const contactsRoute = require("./router/contact");
+const notesRoute = require("./router/note");
 const { default: mongoose } = require("mongoose");
 
 app.use(express.json());
@@ -11,7 +12,8 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(console.log("connected with database"));
 
-app.use("/contacts", contactsRoute);
+app.use("/api/contacts", contactsRoute);
+app.use("/api/notes", notesRoute);
 
 app.listen(PORT, () => {
   console.log(`server running on localhost:${PORT}`);
