@@ -4,9 +4,11 @@ const app = express();
 const PORT = process.env.PORT;
 const { default: mongoose } = require("mongoose");
 const cors = require("cors");
-const contactsRoute = require("./router/contact");
-const notesRoute = require("./router/note");
-const todosRoute = require("./router/todo");
+const contactRoutes = require("./router/contact");
+const noteRoutes = require("./router/note");
+const todoRoutes = require("./router/todo");
+const appointmentRoutes = require("./router/appointment");
+const dealRoutes = require("./router/deal");
 
 app.use(express.json());
 app.use(cors());
@@ -15,9 +17,11 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(console.log("connected with database"));
 
-app.use("/api/contacts", contactsRoute);
-app.use("/api/notes", notesRoute);
-app.use("/api/todos", todosRoute);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/notes", noteRoutes);
+app.use("/api/todos", todoRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/deals", dealRoutes);
 
 app.listen(PORT, () => {
   console.log(`server running on localhost:${PORT}`);

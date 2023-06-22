@@ -80,6 +80,10 @@ const ContactSchema = new mongoose.Schema(
         ref: "Todo",
       },
     ],
+    appointment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
   },
   { timestamps: true }
 );
