@@ -1,3 +1,4 @@
+const Contact = require("../../model/Contact");
 const Note = require("../../model/Note");
 
 // add note
@@ -6,6 +7,24 @@ async function addNote(req, res) {
     const newNote = new Note(req.body);
     await newNote.save();
     res.json(newNote);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// add note to particular contact
+async function addNoteToContact(req, res) {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(404).json({ error: "contact not found!" });
+
+    const newNote = new Note(req.body);
+    await newNote.save();
+
+    contact.notes.push(newNote._id);
+    await contact.save();
+
+    res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,4 +78,11 @@ async function getNotes(req, res) {
   }
 }
 
-module.exports = { addNote, updateNote, deleteNote, getNote, getNotes };
+module.exports = {
+  addNote,
+  updateNote,
+  deleteNote,
+  getNote,
+  getNotes,
+  addNoteToContact,
+};

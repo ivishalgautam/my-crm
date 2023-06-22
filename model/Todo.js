@@ -1,10 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const NoteSchema = new mongoose.Schema({
-  contact: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Contact",
-  },
+const TodoSchema = new mongoose.Schema({
   summary: {
     type: String,
     required: true,
@@ -24,8 +20,12 @@ const NoteSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Email", "Letter", "Phone Call"],
-    default: "",
+    enum: ["No Category", "Email", "Letter", "Phone Call"],
+    default: "No Category",
+  },
+  isPinned: {
+    type: Boolean,
+    default: false,
   },
 });
 

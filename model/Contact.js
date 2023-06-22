@@ -74,10 +74,12 @@ const ContactSchema = new mongoose.Schema(
         ref: "Note",
       },
     ],
-    todos: {
-      type: Array,
-      default: [],
-    },
+    todos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Todo",
+      },
+    ],
   },
   { timestamps: true }
 );

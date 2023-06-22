@@ -4,11 +4,13 @@ const {
   deleteNote,
   getNotes,
   getNote,
-} = require("../controller/notes/noteController");
+  addNoteToContact,
+} = require("../controller/note/noteController");
 const router = require("express").Router();
 
 // POST
 router.post("/", addNote);
+router.post("/:id", addNoteToContact);
 
 // UPDATE
 router.put("/:id", updateNote);

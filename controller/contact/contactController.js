@@ -42,7 +42,7 @@ async function deleteContact(req, res) {
 // get all contacts
 async function getContacts(req, res) {
   try {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find().populate("notes").populate("todos");
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ error: error.message });
