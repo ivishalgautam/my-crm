@@ -2,7 +2,7 @@ const Appointment = require("../../model/Appointment");
 const Contact = require("../../model/Contact");
 
 // create appointment
-async function createAppointment() {
+async function createAppointment(req, res) {
   try {
     const contact = await Contact.findById(req.params.id);
     if (!contact) return res.status(404).json({ error: "Contact not found!" });
@@ -18,7 +18,7 @@ async function createAppointment() {
 }
 
 // update appointment
-async function updateAppointment() {
+async function updateAppointment(req, res) {
   try {
     const updatedAppointment = await Appointment.findByIdAndUpdate(
       req.params.id,
@@ -36,7 +36,7 @@ async function updateAppointment() {
 }
 
 // delete appointment
-async function deleteAppointment() {
+async function deleteAppointment(req, res) {
   try {
     const appointment = await Appointment.findByIdAndDelete(req.params.id);
 
@@ -50,11 +50,11 @@ async function deleteAppointment() {
 }
 
 // get all appointments
-async function getAppointments() {
+async function getAppointments(req, res) {
   try {
     const appointments = await Appointment.find();
-    if (appointment.length <= 0)
-      return res.status(404).json({ error: "There are no appointments" });
+    if (appointments.length <= 0)
+      return res.status(404).json({ error: "We have no appointments!" });
 
     res.json(appointments);
   } catch (error) {
@@ -63,7 +63,7 @@ async function getAppointments() {
 }
 
 // get appointment
-async function getAppointment() {
+async function getAppointment(req, res) {
   try {
     const appointment = await Appointment.findByIdAndDelete(req.params.id);
 

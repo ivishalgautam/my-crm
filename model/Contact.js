@@ -80,10 +80,17 @@ const ContactSchema = new mongoose.Schema(
         ref: "Todo",
       },
     ],
-    appointment: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Appointment",
-    },
+    appointment: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Appointment",
+      },
+    ],
+    referredBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    source: [{ type: mongoose.Schema.Types.ObjectId, ref: "Source" }],
+    category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+    referral: [{ type: mongoose.Schema.Types.ObjectId, ref: "Referral" }],
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
   },
   { timestamps: true }
 );

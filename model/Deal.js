@@ -1,11 +1,14 @@
 const { default: mongoose } = require("mongoose");
 
 const DealTypeSchema = new mongoose.Schema({
-  name: { type: String },
-  stage: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "DealStage",
-  },
+  name: { type: String, required: true },
+  stage: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "DealStage",
+      required: true,
+    },
+  ],
 });
 
 const DealStageSchema = new mongoose.Schema({
