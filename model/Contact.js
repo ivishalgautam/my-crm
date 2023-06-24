@@ -91,8 +91,35 @@ const ContactSchema = new mongoose.Schema(
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
     referral: [{ type: mongoose.Schema.Types.ObjectId, ref: "Referral" }],
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
+    customCheckBoxes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "CheckBox" },
+    ],
+    customDropdowns: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Dropdown" },
+    ],
+    customInputs: [{ type: mongoose.Schema.Types.ObjectId, ref: "TextInput" }],
   },
   { timestamps: true }
 );
+
+// Function to dynamically add custom fields to the schema
+// function addCustomFields(fields) {
+//   const customFieldsSchema = {};
+//   for (const fieldName in fields) {
+//     customFieldsSchema[fieldName] = {
+//       type: mongoose.Schema.Types.Mixed,
+//     };
+//   }
+//   ContactSchema.add(customFieldsSchema);
+// }
+
+// Example usage
+// const dynamicFields = {
+//   field1: "Some value",
+//   field2: 123,
+//   field3: true,
+// };
+
+// addCustomFields(dynamicFields);
 
 module.exports = mongoose.model("Contact", ContactSchema);

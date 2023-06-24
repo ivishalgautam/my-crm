@@ -4,13 +4,14 @@ const Contact = require("../../model/Contact");
 // create appointment
 async function createAppointment(req, res) {
   try {
-    const contact = await Contact.findById(req.params.id);
+    const contact = await Contact.findById(req.params.id); // find contact by id
     if (!contact) return res.status(404).json({ error: "Contact not found!" });
 
-    const newAppointment = new Appointment(req.body);
-    await newAppointment.save();
+    const appointment = new Appointment(req.body); // new appointment
+    await appointment.save();
 
-    contact.appointment.push(newAppointment._id);
+    contact.appointment.push(appointment._id);
+    await contact.save();
     res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });

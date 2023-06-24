@@ -42,7 +42,15 @@ async function deleteContact(req, res) {
 // get all contacts
 async function getContacts(req, res) {
   try {
-    const contacts = await Contact.find().populate(["notes", "todos"]);
+    const contacts = await Contact.find().populate([
+      "notes",
+      "appointment",
+      "referredBy",
+      "source",
+      "category",
+      "referral",
+      "tags",
+    ]);
     res.json(contacts);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -52,7 +60,15 @@ async function getContacts(req, res) {
 // get a contact
 async function getContact(req, res) {
   try {
-    const contact = await Contact.findById(req.params.id).populate("notes");
+    const contact = await Contact.findById(req.params.id).populate([
+      "notes",
+      "appointment",
+      "referredBy",
+      "source",
+      "category",
+      "referral",
+      "tags",
+    ]);
     res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });
