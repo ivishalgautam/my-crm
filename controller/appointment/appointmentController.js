@@ -4,14 +4,32 @@ const Contact = require("../../model/Contact");
 // create appointment
 async function createAppointment(req, res) {
   try {
-    const contact = await Contact.findById(req.params.id); // find contact by id
-    if (!contact) return res.status(404).json({ error: "Contact not found!" });
-
+    // calculate the time with extra 30 minutes
+    const startTime = new Date(req.body.date);
+    const endTime = new Date(req.body.date);
+    startTime.setMinutes(startTime.getMinutes() - 15);
+    endTime.setMinutes(endTime.getMinutes() + 15);
+    // check if appointment with this time or for next 30 minutes exist
+    const existingAppointment = await Appointment.findOne({
+      date: { $gte: startTime, $lte: endTime },
+    });
+    console.log(startTime.toLocaleTimeString(), endTime.toLocaleTimeString());
+    if (existingAppointment)
+      return res
+        .status(400)
+        .json({ error: "appointment already exist with this time!" });
     const appointment = new Appointment(req.body); // new appointment
     await appointment.save();
 
-    contact.appointment.push(appointment._id);
-    await contact.save();
+    const contact = await Contact.findByIdAndUpdate(req.params.id, {
+      $addToSet: { appointment: req.body.appointment },
+    }); // find contact by id and update
+
+    if (!contact) {
+      await Appointment.findByIdAndDelete(appointment._id);
+      return res.status(404).json({ error: "Contact not found!" });
+    }
+
     res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -53,9 +71,8 @@ async function deleteAppointment(req, res) {
 // get all appointments
 async function getAppointments(req, res) {
   try {
-    const appointments = await Appointment.find();
-    if (appointments.length <= 0)
-      return res.status(404).json({ error: "We have no appointments!" });
+    const appointments = await Appointment.find().populate(["contact", "deal"]);
+    if (appointments.length <= 0) return res.json("We have no appointments!");
 
     res.json(appointments);
   } catch (error) {
@@ -66,7 +83,10 @@ async function getAppointments(req, res) {
 // get appointment
 async function getAppointment(req, res) {
   try {
-    const appointment = await Appointment.findByIdAndDelete(req.params.id);
+    const appointment = await Appointment.findById(req.params.id).populate([
+      "contact",
+      "deal",
+    ]);
 
     if (!appointment)
       return res.status(404).json({ error: "appointment not found!" });

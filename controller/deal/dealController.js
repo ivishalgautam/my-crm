@@ -6,6 +6,7 @@ async function createDeal(req, res) {
   try {
     const newDeal = new Deal(req.body);
     await newDeal.save();
+    console.log(newDeal);
     res.json(newDeal);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,7 +39,13 @@ async function deleteDeal(req, res) {
 // get a deal
 async function getDeal(req, res) {
   try {
-    const deal = await Deal.findById(req.params.id);
+    const deal = await Deal.findById(req.params.id).populate({
+      path: "type",
+      populate: {
+        path: "stage",
+        model: "DealStage",
+      },
+    });
     if (!deal) return res.status(404).json({ error: "Deal not found!" });
     res.json(deal);
   } catch (error) {
@@ -48,7 +55,14 @@ async function getDeal(req, res) {
 // get all deals
 async function getDeals(req, res) {
   try {
-    const deals = await Deal.find();
+    const deals = await Deal.find({}).populate({
+      path: "type",
+      model: "DealType",
+      populate: {
+        path: "stage",
+        model: "DealStage",
+      },
+    });
     if (deals.length <= 0)
       return res.status(404).json({ error: "There are no deals!" });
     res.json(deals);
@@ -58,6 +72,8 @@ async function getDeals(req, res) {
 }
 
 // ----------- deal type controllers ---------------
+// use these endpoints only while creating deal types
+
 // create deal type
 async function createDealType(req, res) {
   try {
@@ -73,7 +89,9 @@ async function updateDealType(req, res) {
   try {
     const updatedDealType = await DealType.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      {
+        $addToSet: { stage: req.body.stage },
+      },
       { new: true }
     );
     if (!updatedDealType)
@@ -97,7 +115,7 @@ async function deleteDealType(req, res) {
 // get one deal type
 async function getDealType(req, res) {
   try {
-    const deal = await DealType.findById(req.params.id).populate("DealStage");
+    const deal = await DealType.findById(req.params.id).populate("stage");
     if (!deal) return res.status(404).json({ error: "Deal type not found!" });
     res.json(deal);
   } catch (error) {
@@ -151,6 +169,7 @@ async function updateDealStage(req, res) {
     const updatedDeal = await DealStage.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
+      { $addToSet: { type: req.body.type } },
       { new: true }
     );
     if (!updatedDeal) return res.status(404).json({ error: "Deal not found!" });

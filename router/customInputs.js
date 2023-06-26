@@ -1,7 +1,9 @@
 const {
-  getTextFields,
   createInput,
+  updateInput,
   deleteInput,
+  getInput,
+  getInputs,
 } = require("../controller/custom-input/customInputController");
 
 const router = require("express").Router();
@@ -9,13 +11,14 @@ const router = require("express").Router();
 // POST
 router.post("/", createInput);
 
-// UPDATE
-// router.put("/:id",);
+// PUT
+router.put("/:id", updateInput);
 
 // DELETE
 router.delete("/:id", deleteInput);
 
 // GET
-router.get("/", getTextFields);
+router.get("/:id", getInput);
+router.get("/", getInputs);
 
 module.exports = router;

@@ -13,7 +13,7 @@ const DropdownSchema = new mongoose.Schema({
     required: true,
   },
   type: { type: String, default: "dropdown" },
-  value: [
+  options: [
     {
       type: String,
       required: true,

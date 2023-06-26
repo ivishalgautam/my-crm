@@ -12,7 +12,7 @@ const dealRoutes = require("./router/deal/deal");
 const dealTypeRoutes = require("./router/deal/dealType");
 const dealStageRoutes = require("./router/deal/dealStage");
 const customInputs = require("./router/customInputs");
-const contactRelated = require("./router/contactRelated");
+const contactData = require("./router/data");
 const connectDB = require("./database/db");
 
 app.use(express.json());
@@ -27,7 +27,7 @@ app.use("/api/deals", dealRoutes);
 app.use("/api/deal-types", dealTypeRoutes);
 app.use("/api/deal-stages", dealStageRoutes);
 app.use("/api/custom-inputs", customInputs);
-app.use("/api/contact-relation", contactRelated);
+app.use("/api/contact-data", contactData);
 
 app.listen(PORT, () => {
   console.log(`server running on localhost:${PORT}`);

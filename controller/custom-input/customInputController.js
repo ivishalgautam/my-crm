@@ -28,33 +28,6 @@ async function createInput(req, res) {
   }
 }
 
-// delete fields
-async function deleteInput(req, res) {
-  const { type } = req.query;
-  if (!type) return res.status(409).json({ error: "Please pass some query!" });
-  let input;
-  try {
-    switch (type) {
-      case "text":
-        input = await TextInput.findByIdAndDelete(req.params.id);
-        break;
-      case "dropdown":
-        input = await Dropdown.findByIdAndDelete(req.params.id);
-        break;
-      case "checkbox":
-        input = await CheckBox.findByIdAndDelete(req.params.id);
-        break;
-      default:
-        console.log(`we dont have this ${type} type of inputs`);
-        break;
-    }
-    if (!input) return res.status(404).json({ error: "Input not found! " });
-    res.json("input deleted");
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
 // update fields
 async function updateInput(req, res) {
   const { type } = req.query;
@@ -89,6 +62,33 @@ async function updateInput(req, res) {
         console.log(`we dont have this ${type} type of inputs`);
         break;
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// delete fields
+async function deleteInput(req, res) {
+  const { type } = req.query;
+  if (!type) return res.status(409).json({ error: "Please pass some query!" });
+  let input;
+  try {
+    switch (type) {
+      case "text":
+        input = await TextInput.findByIdAndDelete(req.params.id);
+        break;
+      case "dropdown":
+        input = await Dropdown.findByIdAndDelete(req.params.id);
+        break;
+      case "checkbox":
+        input = await CheckBox.findByIdAndDelete(req.params.id);
+        break;
+      default:
+        console.log(`we dont have this ${type} type of inputs`);
+        break;
+    }
+    if (!input) return res.status(404).json({ error: "Input not found! " });
+    res.json("input deleted");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -131,7 +131,7 @@ async function getInput(req, res) {
 }
 
 // get all inputs
-async function getTextFields(req, res) {
+async function getInputs(req, res) {
   try {
     const textInputs = await TextInput.find();
     const dropdowns = await Dropdown.find();
@@ -142,4 +142,10 @@ async function getTextFields(req, res) {
   }
 }
 
-module.exports = { createInput, deleteInput, getTextFields };
+module.exports = {
+  createInput,
+  updateInput,
+  deleteInput,
+  getInput,
+  getInputs,
+};

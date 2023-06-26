@@ -18,14 +18,11 @@ const DealStageSchema = new mongoose.Schema({
 const DealSchema = new mongoose.Schema(
   {
     name: { type: String },
-    type: { type: String },
-    stage: { type: String },
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealType" }],
     amount: { type: String },
     commision: { type: String },
     nextStep: { type: String },
     probability: { type: String },
-    stage: [DealStageSchema],
-    //   owner: {},
     status: {
       type: String,
       enum: ["Active", "Won", "Lost", "Back Burner"],
@@ -41,6 +38,6 @@ const DealSchema = new mongoose.Schema(
 
 const DealType = mongoose.model("DealType", DealTypeSchema);
 const DealStage = mongoose.model("DealStage", DealStageSchema);
-const Deal = mongoose.model("DealModel", DealSchema);
+const Deal = mongoose.model("Deal", DealSchema);
 
 module.exports = { DealType, DealStage, Deal };
