@@ -5,20 +5,21 @@ const {
   getAppointment,
   getAppointments,
 } = require("../controller/appointment/appointmentController");
+const { validateId } = require("../middleware/verifyId");
 
 const router = require("express").Router();
 
 // POST
-router.post("/:id", createAppointment);
+router.post("/:id", validateId, createAppointment);
 
 // PUT
-router.put("/:id", updateAppointment);
+router.put("/:id", validateId, updateAppointment);
 
 // DELETE
-router.delete("/:id", deleteAppointment);
+router.delete("/:id", validateId, deleteAppointment);
 
 // GET
-router.get("/:id", getAppointment);
+router.get("/:id", validateId, getAppointment);
 router.get("/", getAppointments);
 
 module.exports = router;

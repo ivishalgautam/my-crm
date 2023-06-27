@@ -80,7 +80,7 @@ const ContactSchema = new mongoose.Schema(
         ref: "Todo",
       },
     ],
-    appointment: [
+    appointments: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Appointment",

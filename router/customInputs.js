@@ -5,6 +5,7 @@ const {
   getInput,
   getInputs,
 } = require("../controller/custom-input/customInputController");
+const { validateId } = require("../middleware/verifyId");
 
 const router = require("express").Router();
 
@@ -12,13 +13,13 @@ const router = require("express").Router();
 router.post("/", createInput);
 
 // PUT
-router.put("/:id", updateInput);
+router.put("/:id", validateId, updateInput);
 
 // DELETE
-router.delete("/:id", deleteInput);
+router.delete("/:id", validateId, deleteInput);
 
 // GET
-router.get("/:id", getInput);
+router.get("/:id", validateId, getInput);
 router.get("/", getInputs);
 
 module.exports = router;

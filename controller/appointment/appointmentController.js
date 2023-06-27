@@ -13,17 +13,21 @@ async function createAppointment(req, res) {
     const existingAppointment = await Appointment.findOne({
       date: { $gte: startTime, $lte: endTime },
     });
-    console.log(startTime.toLocaleTimeString(), endTime.toLocaleTimeString());
+    // console.log(startTime.toLocaleTimeString(), endTime.toLocaleTimeString());
     if (existingAppointment)
       return res
         .status(400)
-        .json({ error: "appointment already exist with this time!" });
+        .json({ error: "Book appointment with different time!" });
     const appointment = new Appointment(req.body); // new appointment
     await appointment.save();
 
-    const contact = await Contact.findByIdAndUpdate(req.params.id, {
-      $addToSet: { appointment: req.body.appointment },
-    }); // find contact by id and update
+    const contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      {
+        $addToSet: { appointments: appointment._id },
+      },
+      { new: true }
+    ); // find contact by id and update
 
     if (!contact) {
       await Appointment.findByIdAndDelete(appointment._id);

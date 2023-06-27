@@ -12,7 +12,7 @@ async function addNote(req, res) {
   }
 }
 
-// add note to particular contact
+// add note of a contact
 async function addNoteToContact(req, res) {
   try {
     const contact = await Contact.findById(req.params.id);
@@ -21,8 +21,13 @@ async function addNoteToContact(req, res) {
     const newNote = new Note(req.body);
     await newNote.save();
 
-    contact.notes.push(newNote._id);
-    await contact.save();
+    await Contact.findByIdAndUpdate(
+      req.params.id,
+      {
+        $addToSet: { notes: newNote._id },
+      },
+      { new: true }
+    );
 
     res.json(contact);
   } catch (error) {

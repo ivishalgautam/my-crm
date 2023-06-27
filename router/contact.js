@@ -19,7 +19,7 @@ router.put("/:id", validateId, updateContact);
 router.delete("/:id", validateId, deleteContact);
 
 // GET
-router.get("/:id", getContact);
+router.get("/:id", validateId, getContact);
 router.get("/", getContacts);
 
 module.exports = router;

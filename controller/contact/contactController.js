@@ -1,4 +1,7 @@
+const Appointment = require("../../model/Appointment");
 const Contact = require("../../model/Contact");
+const Note = require("../../model/Note");
+const Todo = require("../../model/Todo");
 
 // creates contact
 async function createContact(req, res) {
@@ -30,8 +33,13 @@ async function updateContact(req, res) {
 // deletes contact
 async function deleteContact(req, res) {
   try {
-    const contact = await Contact.findByIdAndDelete(req.params.id);
+    const contact = await Contact.findById(req.params.id);
     if (!contact) return res.status(404).json({ error: "contact not found!" });
+
+    await Appointment.deleteMany({ _id: { $in: contact.appointments } }); // deletes all the appointments related to this contact
+    await Note.deleteMany({ _id: { $in: contact.notes } }); // deletes all the notes related to this contact
+    await Todo.deleteMany({ _id: { $in: contact.todos } }); // deletes all the todos related to this contact
+    await Contact.findByIdAndRemove(req.params.id);
 
     res.json("contact deleted");
   } catch (error) {
@@ -44,7 +52,8 @@ async function getContacts(req, res) {
   try {
     const contacts = await Contact.find().populate([
       "notes",
-      "appointment",
+      "todos",
+      "appointments",
       "referredBy",
       "source",
       "category",
@@ -62,7 +71,8 @@ async function getContact(req, res) {
   try {
     const contact = await Contact.findById(req.params.id).populate([
       "notes",
-      "appointment",
+      "todos",
+      "appointments",
       "referredBy",
       "source",
       "category",

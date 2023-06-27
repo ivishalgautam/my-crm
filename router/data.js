@@ -5,6 +5,7 @@ const {
   getData,
   getAllData,
 } = require("../controller/contact-data/dataController");
+const { validateId } = require("../middleware/verifyId");
 
 const router = require("express").Router();
 
@@ -12,13 +13,13 @@ const router = require("express").Router();
 router.post("/", addData);
 
 // PUT
-router.put("/:id");
+router.put("/:id", validateId, updateData);
 
 // DELETE
-router.delete("/:id");
+router.delete("/:id", validateId, deleteData);
 
 // GET
-router.get("/:id", getData);
+router.get("/:id", validateId, getData);
 router.get("/", getAllData);
 
 module.exports = router;

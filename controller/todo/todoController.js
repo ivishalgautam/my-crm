@@ -21,8 +21,13 @@ async function addTodoToContact(req, res) {
     const newTodo = new Todo(req.body);
     await newTodo.save();
 
-    contact.todos.push(newTodo._id);
-    await contact.save();
+    await Contact.findByIdAndUpdate(
+      req.params.id,
+      {
+        $addToSet: { todos: newTodo._id },
+      },
+      { new: true }
+    );
 
     res.json(contact);
   } catch (error) {

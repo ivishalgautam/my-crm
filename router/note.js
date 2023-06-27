@@ -6,20 +6,21 @@ const {
   getNote,
   addNoteToContact,
 } = require("../controller/note/noteController");
+const { validateId } = require("../middleware/verifyId");
 const router = require("express").Router();
 
 // POST
 router.post("/", addNote);
-router.post("/:id", addNoteToContact);
+router.post("/:id", validateId, addNoteToContact);
 
 // UPDATE
-router.put("/:id", updateNote);
+router.put("/:id", validateId, updateNote);
 
 // DELETE
-router.delete("/:id", deleteNote);
+router.delete("/:id", validateId, deleteNote);
 
 // GET
 router.get("/", getNotes);
-router.get("/:id", getNote);
+router.get("/:id", validateId, getNote);
 
 module.exports = router;
