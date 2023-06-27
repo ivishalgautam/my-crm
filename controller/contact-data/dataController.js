@@ -146,12 +146,33 @@ async function getData(req, res) {
 
 // get all data
 async function getAllData(req, res) {
-  const sources = await Source.find();
-  const categories = await Category.find();
-  const referrals = await Referral.find();
-  const tags = await Tag.find();
+  const { type } = req.query;
+  if (!type) return res.status(400).json({ error: "Please pass some query" });
+  let data;
+  try {
+    switch (type) {
+      case "source":
+        data = await Source.find();
+        break;
+      case "category":
+        data = await Category.find();
+        break;
+      case "referral":
+        data = await Referral.find();
+        break;
+      case "tag":
+        data = await Tag.find();
+        break;
 
-  res.json([...sources, ...categories, ...referrals, ...tags]);
+      default:
+        return res
+          .status(400)
+          .json({ error: `Invalid 'type' value: '${type}'` });
+    }
+    res.json(data);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
 }
 
 module.exports = { addData, updateData, deleteData, getData, getAllData };
