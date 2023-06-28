@@ -1,3 +1,4 @@
+const { boolean } = require("joi");
 const { default: mongoose } = require("mongoose");
 
 const DealTypeSchema = new mongoose.Schema({
@@ -9,6 +10,22 @@ const DealTypeSchema = new mongoose.Schema({
       required: true,
     },
   ],
+  dealFeatures: {
+    notes: { type: Boolean, default: false },
+    appointments: { type: Boolean, default: false },
+    attachments: { type: Boolean, default: false },
+    relatedContacts: { type: Boolean, default: false },
+  },
+  hiddenFields: {
+    probability: { type: Boolean, default: false },
+    status: { type: Boolean, default: false },
+    amount: { type: Boolean, default: false },
+    commission: { type: Boolean, default: false },
+    expectedCloseDate: { type: Boolean, default: false },
+    actualCloseDate: { type: Boolean, default: false },
+    nextStep: { type: Boolean, default: false },
+    wonLostReason: { type: Boolean, default: false },
+  },
 });
 
 const DealStageSchema = new mongoose.Schema({
