@@ -46,8 +46,8 @@ const DealSchema = new mongoose.Schema(
       default: "Active",
     },
     isShowOnDeals: { type: Boolean, default: true },
-    expectedClose: { type: Date },
-    actualClose: { type: Date },
+    expectedCloseDate: { type: Date },
+    actualCloseDate: { type: Date },
     wonLostReason: { type: String },
   },
   { timestamps: true }
