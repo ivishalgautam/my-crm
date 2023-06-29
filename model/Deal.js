@@ -1,5 +1,38 @@
-const { boolean } = require("joi");
 const { default: mongoose } = require("mongoose");
+
+const TextFieldSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "text" },
+});
+const DropdownSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  values: { type: Array },
+  type: { type: String, default: "dropdown" },
+});
+const TextAreaSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "textarea" },
+});
+const CheckboxSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "checkbox" },
+});
+const DateFieldSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "date" },
+});
+const NumberFieldSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "number" },
+});
+const CurrencyFieldSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "currency" },
+});
+const InterestFieldSchema = new mongoose.Schema({
+  name: { type: String, default: "" },
+  type: { type: String, default: "interestRate" },
+});
 
 const DealTypeSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -25,6 +58,31 @@ const DealTypeSchema = new mongoose.Schema({
     actualCloseDate: { type: Boolean, default: false },
     nextStep: { type: Boolean, default: false },
     wonLostReason: { type: Boolean, default: false },
+  },
+  inputFields: {
+    textFields: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DealTextField" },
+    ],
+    dropdownLists: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "DealDropdown",
+      },
+    ],
+    notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealTextArea" }],
+    checkboxes: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealCheckbox" }],
+    dateFields: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DealDateField" },
+    ],
+    numberFields: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DealNumberField" },
+    ],
+    currencyFields: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DealCurrencyField" },
+    ],
+    interestRateFields: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "DealInterest" },
+    ],
   },
 });
 
@@ -57,4 +115,28 @@ const DealType = mongoose.model("DealType", DealTypeSchema);
 const DealStage = mongoose.model("DealStage", DealStageSchema);
 const Deal = mongoose.model("Deal", DealSchema);
 
-module.exports = { DealType, DealStage, Deal };
+const DealTextField = mongoose.model("DealTextField", TextFieldSchema);
+const DealDropdown = mongoose.model("DealDropdown", DropdownSchema);
+const DealTextArea = mongoose.model("DealTextArea", TextAreaSchema);
+const DealCheckbox = mongoose.model("DealCheckbox", CheckboxSchema);
+const DealDateField = mongoose.model("DealDateField", DateFieldSchema);
+const DealNumberField = mongoose.model("DealNumberField", NumberFieldSchema);
+const DealCurrencyField = mongoose.model(
+  "DealCurrencyField",
+  CurrencyFieldSchema
+);
+const DealInterest = mongoose.model("DealInterest", InterestFieldSchema);
+
+module.exports = {
+  DealType,
+  DealStage,
+  Deal,
+  DealTextField,
+  DealDropdown,
+  DealTextArea,
+  DealCheckbox,
+  DealDateField,
+  DealNumberField,
+  DealCurrencyField,
+  DealInterest,
+};

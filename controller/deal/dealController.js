@@ -86,12 +86,11 @@ async function createDealType(req, res) {
 }
 // update deal type
 async function updateDealType(req, res) {
+  console.log(req.body.dropdownLists);
   try {
     const updatedDealType = await DealType.findByIdAndUpdate(
       req.params.id,
-      {
-        $addToSet: { stage: req.body.stage },
-      },
+      { $set: req.body },
       { new: true }
     );
     if (!updatedDealType)
@@ -101,6 +100,25 @@ async function updateDealType(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+// create deal stage in stage type
+async function createDealStageInStageType(req, res) {
+  try {
+    const dealType = await DealType.findById(req.params.id);
+    if (!dealType)
+      return res.status(404).json({ error: "Deal type not found!" });
+
+    const dealStage = new DealStage(req.body);
+    await dealStage.save();
+
+    dealType.stage.push(dealStage._id);
+    await dealType.save();
+
+    res.json(dealType);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // delete deal type
 async function deleteDealType(req, res) {
   try {
@@ -125,7 +143,13 @@ async function getDealType(req, res) {
 // get all deal types
 async function getDealTypes(req, res) {
   try {
-    const deals = await DealType.find().populate("stage");
+    const deals = await DealType.find().populate({
+      path: "stage",
+      populate: {
+        path: "inputFields.textFields",
+        model: "DealTextField",
+      },
+    });
     if (!deals)
       return res.status(404).json({ error: "There are no deal types found!" });
     res.json(deals);
@@ -141,24 +165,6 @@ async function createDealStage(req, res) {
     const newDealStage = new DealStage(req.body);
     await newDealStage.save();
     res.json(newDealStage);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-// create deal stage in stage type
-async function createDealStageInStageType(req, res) {
-  try {
-    const dealType = await DealType.findById(req.params.id);
-    if (!dealType)
-      return res.status(404).json({ error: "Deal type not found!" });
-
-    const dealStage = new DealStage(req.body);
-    await dealStage.save();
-
-    dealType.stage.push(dealStage._id);
-    await dealType.save();
-
-    res.json(dealType);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
