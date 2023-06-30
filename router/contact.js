@@ -6,6 +6,7 @@ const {
   getContacts,
   getContact,
 } = require("../controller/contact/contactController");
+const { createContactDeal } = require("../controller/deal/dealController");
 
 const router = require("express").Router();
 
@@ -14,6 +15,7 @@ router.post("/", createContact);
 
 // UPDATE
 router.put("/:id", validateId, updateContact);
+router.put("/:id/add-stage", validateId, createContactDeal);
 
 // DELETE
 router.delete("/:id", validateId, deleteContact);

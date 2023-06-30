@@ -1,5 +1,6 @@
 const {
   createDeal,
+  createContactDeal,
   updateDeal,
   deleteDeal,
   getDeal,
@@ -14,6 +15,7 @@ router.post("/", createDeal);
 
 // UPDATE
 router.put("/:id", validateId, updateDeal);
+router.put("/:id/add-deal", validateId, createContactDeal);
 
 // DELETE
 router.delete("/:id", validateId, deleteDeal);

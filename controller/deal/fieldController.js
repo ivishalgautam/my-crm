@@ -89,5 +89,136 @@ async function addDealFields(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+// delete deal input
+async function deleteDealFields(req, res) {
+  const { type } = req.query;
+  if (!type) return res.status(400).json({ error: "Please pass some query" });
+  try {
+    let field;
+    switch (type) {
+      case "textFields":
+        field = await DealTextField.findByIdAndRemove(req.params.id);
+        break;
+      case "dropdownLists":
+        field = await DealDropdown.findByIdAndRemove(req.params.id);
+        break;
+      case "noteFields":
+        field = await DealTextArea.findByIdAndRemove(req.params.id);
+        break;
+      case "checkboxes":
+        field = await DealCheckbox.findByIdAndRemove(req.params.id);
+        break;
+      case "dateFields":
+        field = await DealDateField.findByIdAndRemove(req.params.id);
+        break;
+      case "numberFields":
+        field = await DealNumberField.findByIdAndRemove(req.params.id);
+        break;
+      case "currencyFields":
+        field = await DealCurrencyField.findByIdAndRemove(
+          params.id.currencyFields
+        );
+        break;
+      case "interestRateFields":
+        field = await DealInterest.findByIdAndRemove(
+          params.id.interestRateFields
+        );
+        break;
 
-module.exports = { addDealFields };
+      default:
+        return res
+          .status(400)
+          .json({ error: `Invalid 'type' value: '${type}'` });
+    }
+    if (!field) return res.status(404).json({ error: "Field not found!" });
+    res.json(field);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+// update deal input
+async function updateDealFields(req, res) {
+  const { type } = req.query;
+  if (!type) return res.status(400).json({ error: "Please pass some query" });
+  try {
+    let field;
+    let fieldKey;
+    switch (type) {
+      case "textFields":
+        field = await DealTextField.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "textFields";
+        break;
+      case "dropdownLists":
+        field = await DealDropdown.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "dropdownLists";
+        break;
+      case "noteFields":
+        field = await DealTextArea.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "noteFields";
+        break;
+      case "checkboxes":
+        field = await DealCheckbox.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "checkboxes";
+        break;
+      case "dateFields":
+        field = await DealDateField.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "dateFields";
+        break;
+      case "numberFields":
+        field = await DealNumberField.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "numberFields";
+        break;
+      case "currencyFields":
+        field = await DealCurrencyField.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "currencyFields";
+        break;
+      case "interestRateFields":
+        field = await DealInterest.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        fieldKey = "interestRateFields";
+        break;
+
+      default:
+        return res
+          .status(400)
+          .json({ error: `Invalid 'type' value: '${type}'` });
+    }
+    await field.save();
+    res.json(field);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+module.exports = { addDealFields, deleteDealFields, updateDealFields };

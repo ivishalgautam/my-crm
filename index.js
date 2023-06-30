@@ -14,10 +14,12 @@ const dealStageRoutes = require("./router/deal/dealStage");
 const customInputs = require("./router/customInputs");
 const contactData = require("./router/data");
 const connectDB = require("./database/db");
+const morgan = require("morgan");
 
 app.use(express.json());
 app.use(cors());
 connectDB();
+app.use(morgan("tiny"));
 
 app.use("/api/contacts", contactRoutes);
 app.use("/api/notes", noteRoutes);

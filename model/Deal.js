@@ -69,7 +69,7 @@ const DealTypeSchema = new mongoose.Schema({
         ref: "DealDropdown",
       },
     ],
-    notes: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealTextArea" }],
+    noteFields: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealTextArea" }],
     checkboxes: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealCheckbox" }],
     dateFields: [
       { type: mongoose.Schema.Types.ObjectId, ref: "DealDateField" },
@@ -92,21 +92,21 @@ const DealStageSchema = new mongoose.Schema({
 
 const DealSchema = new mongoose.Schema(
   {
-    name: { type: String },
+    name: { type: String, default: "" },
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealType" }],
-    amount: { type: String },
-    commision: { type: String },
-    nextStep: { type: String },
-    probability: { type: String },
+    amount: { type: String, default: "" },
+    commision: { type: String, default: "" },
+    nextStep: { type: String, default: "" },
+    probability: { type: String, default: "" },
     status: {
       type: String,
       enum: ["Active", "Won", "Lost", "Back Burner"],
       default: "Active",
     },
     isShowOnDeals: { type: Boolean, default: true },
-    expectedCloseDate: { type: Date },
-    actualCloseDate: { type: Date },
-    wonLostReason: { type: String },
+    expectedCloseDate: { type: Date, default: "" },
+    actualCloseDate: { type: Date, default: "" },
+    wonLostReason: { type: String, default: "" },
   },
   { timestamps: true }
 );

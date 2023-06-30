@@ -1,3 +1,4 @@
+const Contact = require("../../model/Contact");
 const { Deal, DealStage, DealType } = require("../../model/Deal");
 
 // ----------------- deals controlers -----------------
@@ -8,6 +9,25 @@ async function createDeal(req, res) {
     await newDeal.save();
     console.log(newDeal);
     res.json(newDeal);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+// add a deal
+async function createContactDeal(req, res) {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(400).json({ error: "Contact not found!" });
+
+    const deal = new Deal(req.body);
+    await deal.save();
+    const updatedContact = await Contact.findByIdAndUpdate(req.params.id, {
+      $push: { deals: deal._id },
+    });
+    if (!updatedContact) {
+      await Deal.findByIdAndRemove(deal._id);
+    }
+    res.json(updatedContact);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -58,10 +78,49 @@ async function getDeals(req, res) {
     const deals = await Deal.find({}).populate({
       path: "type",
       model: "DealType",
-      populate: {
-        path: "stage",
-        model: "DealStage",
-      },
+      populate: [
+        { path: "stage", model: "DealStage" },
+        {
+          path: "inputFields.textFields",
+          model: "DealTextField",
+        },
+        {
+          path: "inputFields.dropdownLists",
+          model: "DealDropdown",
+        },
+        {
+          path: "inputFields.noteFields",
+          model: "DealTextArea",
+        },
+        {
+          path: "inputFields.checkboxes",
+          model: "DealCheckbox",
+        },
+        {
+          path: "inputFields.noteFields",
+          model: "DealTextArea",
+        },
+        {
+          path: "inputFields.checkboxes",
+          model: "DealCheckbox",
+        },
+        {
+          path: "inputFields.dateFields",
+          model: "DealDateField",
+        },
+        {
+          path: "inputFields.numberFields",
+          model: "DealNumberField",
+        },
+        {
+          path: "inputFields.currencyFields",
+          model: "DealCurrencyField",
+        },
+        {
+          path: "inputFields.interestRateFields",
+          model: "DealInterest",
+        },
+      ],
     });
     if (deals.length <= 0)
       return res.status(404).json({ error: "There are no deals!" });
@@ -100,24 +159,6 @@ async function updateDealType(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-// create deal stage in stage type
-async function createDealStageInStageType(req, res) {
-  try {
-    const dealType = await DealType.findById(req.params.id);
-    if (!dealType)
-      return res.status(404).json({ error: "Deal type not found!" });
-
-    const dealStage = new DealStage(req.body);
-    await dealStage.save();
-
-    dealType.stage.push(dealStage._id);
-    await dealType.save();
-
-    res.json(dealType);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
 
 // delete deal type
 async function deleteDealType(req, res) {
@@ -143,13 +184,13 @@ async function getDealType(req, res) {
 // get all deal types
 async function getDealTypes(req, res) {
   try {
-    const deals = await DealType.find().populate({
-      path: "stage",
-      populate: {
-        path: "inputFields.textFields",
+    const deals = await DealType.find().populate([
+      { path: "stage", model: "DealStage" },
+      {
+        path: "inputFields.textFields", //incomplete
         model: "DealTextField",
       },
-    });
+    ]);
     if (!deals)
       return res.status(404).json({ error: "There are no deal types found!" });
     res.json(deals);
@@ -160,11 +201,20 @@ async function getDealTypes(req, res) {
 
 // ----------- deal stage controllers ---------------
 // create deal stage
-async function createDealStage(req, res) {
+// create deal stage in stage type
+async function addDealStage(req, res) {
   try {
-    const newDealStage = new DealStage(req.body);
-    await newDealStage.save();
-    res.json(newDealStage);
+    const dealType = await DealType.findById(req.params.id);
+    if (!dealType)
+      return res.status(404).json({ error: "Deal type not found!" });
+
+    const dealStage = new DealStage(req.body);
+    await dealStage.save();
+
+    dealType.stage.push(dealStage._id);
+    await dealType.save();
+
+    res.json(dealType);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -218,17 +268,17 @@ async function getDealStages(req, res) {
 
 module.exports = {
   createDeal,
+  createContactDeal,
   updateDeal,
   deleteDeal,
   getDeal,
   getDeals,
   createDealType,
-  createDealStageInStageType,
+  addDealStage,
   updateDealType,
   deleteDealType,
   getDealType,
   getDealTypes,
-  createDealStage,
   updateDealStage,
   deleteDealStage,
   getDealStage,

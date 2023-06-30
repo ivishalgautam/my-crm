@@ -1,21 +1,19 @@
 const {
-  createDealStage,
-  updateDealStage,
   deleteDealStage,
   getDealStage,
   getDealStages,
-  createDealStageInStageType,
+  addDealStage,
 } = require("../../controller/deal/dealController");
 const { validateId } = require("../../middleware/verifyId");
 
 const router = require("express").Router();
 
 // POST
-router.post("/", createDealStage);
+// router.post("/", createDealStage);
 
 // PUT
-router.put("/:id", validateId, updateDealStage);
-router.put("/:id/add-stage", validateId, createDealStageInStageType);
+// router.put("/:id", validateId, updateDealStage);
+router.put("/:id/add-stage", validateId, addDealStage);
 
 // DELETE
 router.delete("/:id", validateId, deleteDealStage);

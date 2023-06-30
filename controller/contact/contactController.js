@@ -1,5 +1,6 @@
 const Appointment = require("../../model/Appointment");
 const Contact = require("../../model/Contact");
+const { Deal } = require("../../model/Deal");
 const Note = require("../../model/Note");
 const Todo = require("../../model/Todo");
 
@@ -39,6 +40,7 @@ async function deleteContact(req, res) {
     await Appointment.deleteMany({ _id: { $in: contact.appointments } }); // deletes all the appointments related to this contact
     await Note.deleteMany({ _id: { $in: contact.notes } }); // deletes all the notes related to this contact
     await Todo.deleteMany({ _id: { $in: contact.todos } }); // deletes all the todos related to this contact
+    await Deal.deleteMany({ _id: { $in: contact.deals } }); // deletes all the deals related to this contact
     await Contact.findByIdAndRemove(req.params.id);
 
     res.json("contact deleted");
@@ -59,6 +61,7 @@ async function getContacts(req, res) {
       "category",
       "referral",
       "tags",
+      "deals",
     ]);
     res.json(contacts);
   } catch (error) {
@@ -78,6 +81,7 @@ async function getContact(req, res) {
       "category",
       "referral",
       "tags",
+      "deals",
     ]);
     res.json(contact);
   } catch (error) {
