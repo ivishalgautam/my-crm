@@ -1,5 +1,5 @@
 const Contact = require("../../model/Contact");
-const Todo = require("../../model/Todo");
+const Todo = require("../../model/todo/Todo");
 
 // add toto
 async function addTodo(req, res) {

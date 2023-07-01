@@ -1,5 +1,5 @@
+const { DealType } = require("../../model/Deal");
 const {
-  DealType,
   DealTextField,
   DealDropdown,
   DealTextArea,
@@ -8,7 +8,7 @@ const {
   DealNumberField,
   DealCurrencyField,
   DealInterest,
-} = require("../../model/Deal");
+} = require("../../model/DealField");
 
 // add deal input
 async function addDealFields(req, res) {
@@ -142,7 +142,6 @@ async function updateDealFields(req, res) {
   if (!type) return res.status(400).json({ error: "Please pass some query" });
   try {
     let field;
-    let fieldKey;
     switch (type) {
       case "textFields":
         field = await DealTextField.findByIdAndUpdate(
@@ -150,7 +149,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "textFields";
         break;
       case "dropdownLists":
         field = await DealDropdown.findByIdAndUpdate(
@@ -158,7 +156,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "dropdownLists";
         break;
       case "noteFields":
         field = await DealTextArea.findByIdAndUpdate(
@@ -166,7 +163,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "noteFields";
         break;
       case "checkboxes":
         field = await DealCheckbox.findByIdAndUpdate(
@@ -174,7 +170,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "checkboxes";
         break;
       case "dateFields":
         field = await DealDateField.findByIdAndUpdate(
@@ -182,7 +177,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "dateFields";
         break;
       case "numberFields":
         field = await DealNumberField.findByIdAndUpdate(
@@ -190,7 +184,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "numberFields";
         break;
       case "currencyFields":
         field = await DealCurrencyField.findByIdAndUpdate(
@@ -198,7 +191,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "currencyFields";
         break;
       case "interestRateFields":
         field = await DealInterest.findByIdAndUpdate(
@@ -206,7 +198,6 @@ async function updateDealFields(req, res) {
           { $set: req.body },
           { new: true }
         );
-        fieldKey = "interestRateFields";
         break;
 
       default:
@@ -214,7 +205,6 @@ async function updateDealFields(req, res) {
           .status(400)
           .json({ error: `Invalid 'type' value: '${type}'` });
     }
-    await field.save();
     res.json(field);
   } catch (error) {
     res.status(500).json({ error: error.message });

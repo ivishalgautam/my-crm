@@ -5,8 +5,8 @@ const {
   deleteTodo,
   getTodos,
   getTodo,
-} = require("../controller/todo/todoController");
-const { validateId } = require("../middleware/verifyId");
+} = require("../../controller/todo/todoController");
+const { validateId } = require("../../middleware/verifyId");
 
 const router = require("express").Router();
 

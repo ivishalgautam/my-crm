@@ -2,7 +2,7 @@ const Appointment = require("../../model/Appointment");
 const Contact = require("../../model/Contact");
 const { Deal } = require("../../model/Deal");
 const Note = require("../../model/Note");
-const Todo = require("../../model/Todo");
+const Todo = require("../../model/todo/Todo");
 
 // creates contact
 async function createContact(req, res) {

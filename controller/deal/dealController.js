@@ -122,8 +122,7 @@ async function getDeals(req, res) {
         },
       ],
     });
-    if (deals.length <= 0)
-      return res.status(404).json({ error: "There are no deals!" });
+    if (deals.length <= 0) return res.json({ error: "There are no deals!" });
     res.json(deals);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -187,8 +186,36 @@ async function getDealTypes(req, res) {
     const deals = await DealType.find().populate([
       { path: "stage", model: "DealStage" },
       {
-        path: "inputFields.textFields", //incomplete
+        path: "inputFields.textFields",
         model: "DealTextField",
+      },
+      {
+        path: "inputFields.dropdownLists",
+        model: "DealDropdown",
+      },
+      {
+        path: "inputFields.noteFields",
+        model: "DealTextArea",
+      },
+      {
+        path: "inputFields.checkboxes",
+        model: "DealCheckbox",
+      },
+      {
+        path: "inputFields.dateFields",
+        model: "DealDateField",
+      },
+      {
+        path: "inputFields.numberFields",
+        model: "DealNumberField",
+      },
+      {
+        path: "inputFields.currencyFields",
+        model: "DealCurrencyField",
+      },
+      {
+        path: "inputFields.interestRateFields",
+        model: "DealInterest",
       },
     ]);
     if (!deals)
@@ -211,10 +238,11 @@ async function addDealStage(req, res) {
     const dealStage = new DealStage(req.body);
     await dealStage.save();
 
-    dealType.stage.push(dealStage._id);
-    await dealType.save();
+    const updatedDealType = await DealType.findByIdAndUpdate(req.params.id, {
+      $push: { stage: dealStage._id },
+    });
 
-    res.json(dealType);
+    res.json(updatedDealType);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -225,10 +253,10 @@ async function updateDealStage(req, res) {
     const updatedDeal = await DealStage.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { $addToSet: { type: req.body.type } },
       { new: true }
     );
-    if (!updatedDeal) return res.status(404).json({ error: "Deal not found!" });
+    if (!updatedDeal)
+      return res.status(404).json({ error: "Deal stage not found!" });
     res.json(updatedDeal);
   } catch (error) {
     res.status(500).json({ error: error.message });

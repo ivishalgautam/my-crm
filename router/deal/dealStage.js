@@ -3,18 +3,15 @@ const {
   getDealStage,
   getDealStages,
   addDealStage,
+  updateDealStage,
 } = require("../../controller/deal/dealController");
 const { validateId } = require("../../middleware/verifyId");
 
 const router = require("express").Router();
 
-// POST
-// router.post("/", createDealStage);
-
 // PUT
-// router.put("/:id", validateId, updateDealStage);
-router.put("/:id/add-stage", validateId, addDealStage);
-
+router.post("/:id", validateId, addDealStage);
+router.put("/:id", updateDealStage);
 // DELETE
 router.delete("/:id", validateId, deleteDealStage);
 
