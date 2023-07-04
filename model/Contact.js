@@ -57,8 +57,14 @@ const ContactSchema = new mongoose.Schema(
     },
     phoneNumbers: [
       {
-        type: String,
-        required: true,
+        number: {
+          type: String,
+          required: true,
+        },
+        note: {
+          type: String,
+          required: true,
+        },
       },
     ],
     briefNote: {
@@ -86,6 +92,7 @@ const ContactSchema = new mongoose.Schema(
         ref: "Appointment",
       },
     ],
+    socials: [{ type: mongoose.Schema.Types.ObjectId, ref: "Social" }],
     referredBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     source: [{ type: mongoose.Schema.Types.ObjectId, ref: "Source" }],
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
