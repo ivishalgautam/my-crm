@@ -26,8 +26,7 @@ async function updateTodoPlanStep(req, res) {
     const todoPlanStep = await TodoPlanStep.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true },
-      { runValidators: true }
+      { new: true, runValidators: true }
     );
     if (!todoPlanStep)
       return res.status(404).json({ error: "Todo plan step not found!" });

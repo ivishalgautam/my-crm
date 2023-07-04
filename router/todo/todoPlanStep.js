@@ -17,6 +17,7 @@ router.put("/:id", validateId, updateTodoPlanStep);
 
 // DELETE
 router.delete("/:id", validateId, deleteTodoPlanStep);
+
 // GET
 router.get("/:id", validateId, getTodoPlanStep);
 router.get("/", getTodoPlanSteps);

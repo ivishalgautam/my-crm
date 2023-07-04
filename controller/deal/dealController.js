@@ -38,7 +38,7 @@ async function updateDeal(req, res) {
     const updatedDeal = await Deal.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!updatedDeal) return res.status(404).json({ error: "Deal not found!" });
     res.json(updatedDeal);

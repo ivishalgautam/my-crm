@@ -1,12 +1,41 @@
 const Contact = require("../../model/Contact");
 const Todo = require("../../model/todo/Todo");
+const TodoPlan = require("../../model/todo/TodoPlan");
 
-// add toto
+// add todo
 async function addTodo(req, res) {
   try {
     const newTodo = new Todo(req.body);
     await newTodo.save();
     res.json(newTodo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+// asign todo plan
+async function assignTodoPlan(req, res) {
+  try {
+    const todoPlans = await TodoPlan.findById(req.params.id).populate("steps");
+
+    let todos = [];
+
+    for (const step of todoPlans.steps) {
+      const date = new Date();
+      const todo = new Todo();
+      todo.summary = `${step.summary} [${req.body.summary}]`;
+      todo.dueDate =
+        step.increment === "days"
+          ? date.setDate(date.getDate() + Number(step.period))
+          : step.increment === "weeks"
+          ? date.setDate(date.getDate() + Number(step.period) * 7)
+          : step.increment === "months"
+          ? date.setMonth(date.getMonth() + Number(step.period))
+          : date.setFullYear(date.getFullYear() + Number(step.period));
+      todos.push(todo);
+    }
+
+    await Todo.insertMany(todos);
+    res.json(todos);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -41,7 +70,7 @@ async function updateTodo(req, res) {
     const updatedTodo = await Todo.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!updatedTodo) return res.status(404).json({ error: "todo not found!" });
 
@@ -85,6 +114,7 @@ async function getTodos(req, res) {
 
 module.exports = {
   addTodo,
+  assignTodoPlan,
   updateTodo,
   deleteTodo,
   getTodo,

@@ -16,7 +16,6 @@ const TodoSchema = new mongoose.Schema({
   },
   details: {
     type: String,
-    required: true,
   },
   category: {
     type: String,

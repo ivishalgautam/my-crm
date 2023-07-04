@@ -46,7 +46,7 @@ async function updateAppointment(req, res) {
     const updatedAppointment = await Appointment.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!updatedAppointment)
