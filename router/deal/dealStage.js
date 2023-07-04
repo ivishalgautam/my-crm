@@ -12,6 +12,7 @@ const router = require("express").Router();
 // PUT
 router.post("/:id", validateId, addDealStage);
 router.put("/:id", updateDealStage);
+
 // DELETE
 router.delete("/:id", validateId, deleteDealStage);
 

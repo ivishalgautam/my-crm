@@ -49,6 +49,17 @@ async function deleteContact(req, res) {
   }
 }
 
+// deleted all contacts
+async function deleteAllContacts(req, res) {
+  try {
+    const contacts = await Contact.find({});
+    await Contact.deleteMany({ _id: { $in: contacts._id } });
+    res.json("contacts deleted");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // get all contacts
 async function getContacts(req, res) {
   try {
@@ -97,4 +108,5 @@ module.exports = {
   deleteContact,
   getContacts,
   getContact,
+  deleteAllContacts,
 };

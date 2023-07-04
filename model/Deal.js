@@ -59,7 +59,9 @@ const DealStageSchema = new mongoose.Schema({
 const DealSchema = new mongoose.Schema(
   {
     name: { type: String, default: "" },
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealType" }],
+    // type: [{ type: mongoose.Schema.Types.ObjectId, ref: "DealType" }],
+    type: { type: String },
+    stage: { type: String },
     amount: { type: String, default: "" },
     commision: { type: String, default: "" },
     nextStep: { type: String, default: "" },

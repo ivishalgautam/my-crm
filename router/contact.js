@@ -5,6 +5,7 @@ const {
   deleteContact,
   getContacts,
   getContact,
+  deleteAllContacts,
 } = require("../controller/contact/contactController");
 const { createContactDeal } = require("../controller/deal/dealController");
 
@@ -18,6 +19,7 @@ router.put("/:id", validateId, updateContact);
 router.put("/:id/add-stage", validateId, createContactDeal);
 
 // DELETE
+// router.delete("/deleteAll", deleteAllContacts);
 router.delete("/:id", validateId, deleteContact);
 
 // GET
