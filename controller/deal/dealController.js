@@ -75,53 +75,56 @@ async function getDeal(req, res) {
 // get all deals
 async function getDeals(req, res) {
   try {
-    const deals = await Deal.find({}).populate({
-      path: "type",
-      model: "DealType",
-      populate: [
-        { path: "stage", model: "DealStage" },
-        {
-          path: "inputFields.textFields",
-          model: "DealTextField",
-        },
-        {
-          path: "inputFields.dropdownLists",
-          model: "DealDropdown",
-        },
-        {
-          path: "inputFields.noteFields",
-          model: "DealTextArea",
-        },
-        {
-          path: "inputFields.checkboxes",
-          model: "DealCheckbox",
-        },
-        {
-          path: "inputFields.noteFields",
-          model: "DealTextArea",
-        },
-        {
-          path: "inputFields.checkboxes",
-          model: "DealCheckbox",
-        },
-        {
-          path: "inputFields.dateFields",
-          model: "DealDateField",
-        },
-        {
-          path: "inputFields.numberFields",
-          model: "DealNumberField",
-        },
-        {
-          path: "inputFields.currencyFields",
-          model: "DealCurrencyField",
-        },
-        {
-          path: "inputFields.interestRateFields",
-          model: "DealInterest",
-        },
-      ],
-    });
+    const deals = await Deal.find({}).populate([
+      { path: "stage", model: "DealStage" },
+      {
+        path: "type",
+        model: "DealType",
+        populate: [
+          // { path: "stage", model: "DealStage" },
+          {
+            path: "inputFields.textFields",
+            model: "DealTextField",
+          },
+          {
+            path: "inputFields.dropdownLists",
+            model: "DealDropdown",
+          },
+          {
+            path: "inputFields.noteFields",
+            model: "DealTextArea",
+          },
+          {
+            path: "inputFields.checkboxes",
+            model: "DealCheckbox",
+          },
+          {
+            path: "inputFields.noteFields",
+            model: "DealTextArea",
+          },
+          {
+            path: "inputFields.checkboxes",
+            model: "DealCheckbox",
+          },
+          {
+            path: "inputFields.dateFields",
+            model: "DealDateField",
+          },
+          {
+            path: "inputFields.numberFields",
+            model: "DealNumberField",
+          },
+          {
+            path: "inputFields.currencyFields",
+            model: "DealCurrencyField",
+          },
+          {
+            path: "inputFields.interestRateFields",
+            model: "DealInterest",
+          },
+        ],
+      },
+    ]);
     if (deals.length <= 0) return res.json({ error: "There are no deals!" });
     res.json(deals);
   } catch (error) {

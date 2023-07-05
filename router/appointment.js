@@ -1,3 +1,4 @@
+const router = require("express").Router();
 const {
   createAppointment,
   updateAppointment,
@@ -6,8 +7,7 @@ const {
   getAppointments,
 } = require("../controller/appointment/appointmentController");
 const { validateId } = require("../middleware/verifyId");
-
-const router = require("express").Router();
+require("../controller/email/emailController");
 
 // POST
 router.post("/:id", validateId, createAppointment);
