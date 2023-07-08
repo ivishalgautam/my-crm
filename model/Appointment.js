@@ -12,19 +12,18 @@ const AppointmentSchema = new mongoose.Schema(
     recurs: {
       type: String,
       enum: [
-        "Only_Once",
-        "Every_Day",
-        "Every_Weekday",
-        "Weekly",
-        "Every_Other_Week",
-        "Monthly",
-        "Yearly",
+        "only once",
+        "everyday",
+        "every weekday",
+        "weekly",
+        "every other week",
+        "monthly",
+        "yearly",
       ],
-      default: "Only_Once",
+      default: "only once",
     },
-    occurences: {
+    occurrences: {
       type: String,
-      enum: ["1", "2", "3", "4", "5"],
       default: "1",
     },
     details: {
