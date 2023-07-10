@@ -7,6 +7,8 @@ const connectDB = require("./database/db");
 const morgan = require("morgan");
 
 // routes import
+const authRoutes = require("./router/auth/login");
+const userRoutes = require("./router/auth/user");
 const contactRoutes = require("./router/contact");
 const noteRoutes = require("./router/note");
 const todoRoutes = require("./router/todo/todo");
@@ -28,6 +30,8 @@ app.use(cors());
 connectDB();
 app.use(morgan("tiny"));
 
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/todos", todoRoutes);

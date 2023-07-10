@@ -1,4 +1,4 @@
-const Agenda = require("../../model/AgendaAssist");
+const Agenda = require("../../model/Agenda");
 
 // creates a new agenda
 async function addAgenda(req, res) {

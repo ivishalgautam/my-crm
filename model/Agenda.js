@@ -12,7 +12,7 @@ const AgendaSchema = new mongoose.Schema({
   },
   when_to_send: {
     type: String,
-    enum: ["everyday", "every weekday"],
+    enum: ["everyday", "weekday"],
     default: "everyday",
   },
 });

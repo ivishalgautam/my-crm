@@ -5,7 +5,7 @@ const {
   getAgenda,
 } = require("../controller/agenda-assist/agendaController");
 const { validateId } = require("../middleware/verifyId");
-// require("../controller/email/agendaEmail");
+require("../controller/email/agendaEmail");
 
 // POST
 router.post("/", addAgenda);

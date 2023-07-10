@@ -106,6 +106,11 @@ const ContactSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "Dropdown" },
     ],
     customInputs: [{ type: mongoose.Schema.Types.ObjectId, ref: "TextInput" }],
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   },
   { timestamps: true }
 );

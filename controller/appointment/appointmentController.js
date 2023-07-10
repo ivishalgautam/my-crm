@@ -150,12 +150,12 @@ async function getAppointments(req, res) {
     if (appointments.length <= 0)
       return res.json({ message: "We have no appointments!" });
 
-    res.json(appointments.map((appointment) => appointment.date));
+    // res.json(appointments.map((appointment) => appointment.date));
     const modifiedAppointments = appointments.map((appointment) => {
       const { recurs, occurrences, ...rest } = appointment._doc;
       return rest;
     });
-    // res.json(modifiedAppointments);
+    res.json(modifiedAppointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
