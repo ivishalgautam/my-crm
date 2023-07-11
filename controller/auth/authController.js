@@ -17,7 +17,7 @@ async function login(req, res) {
       },
       process.env.SECRET_KEY
     );
-    res.json({ ...additionalData, token: accessToken, loggendIn: true });
+    res.json({ token: accessToken, loggedIn: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
