@@ -17,8 +17,12 @@ async function login(req, res) {
       },
       process.env.SECRET_KEY
     );
-    res.cookie("isAdmin", user.isAdmin);
-    res.cookie("access_token", accessToken);
+    res.cookie("isAdmin", user.isAdmin, {
+      expires: new Date(Date.now() + 3600000), // Cookie expiration time (1 hour)
+      httpOnly: false, // The cookie is inaccessible to JavaScript
+      secure: false, // The cookie is sent only over HTTPS
+    });
+    res.cookie("token", accessToken);
     res.json({ ...additionalData, accessToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
