@@ -17,12 +17,6 @@ async function login(req, res) {
       },
       process.env.SECRET_KEY
     );
-    res.cookie("isAdmin", user.isAdmin, {
-      path: "http://localhost:5173/",
-    });
-    res.cookie("token", accessToken, {
-      path: "http://localhost:5173/",
-    });
     res.json({ ...additionalData, token: accessToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -34,4 +28,4 @@ async function readUser(req, res) {
   res.json(req.user);
 }
 
-module.exports = login;
+module.exports = { login, readUser };
