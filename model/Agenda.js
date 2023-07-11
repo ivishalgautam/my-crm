@@ -15,6 +15,10 @@ const AgendaSchema = new mongoose.Schema({
     enum: ["everyday", "weekday"],
     default: "everyday",
   },
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Agenda", AgendaSchema);

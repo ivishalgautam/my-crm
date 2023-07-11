@@ -40,12 +40,13 @@ async function checkAgendaAndSendEmail() {
       today_special_events,
       today_appointments,
       when_to_send,
+      isActive,
     } = agenda;
 
     const allAgendas = {};
     const todayString = new Date().toISOString().split("T")[0];
 
-    if (when_to_send === "everyday") {
+    if (isActive && when_to_send === "everyday") {
       if (overdue_todos) {
         const date = new Date();
         const todos = await Todo.find({
@@ -132,7 +133,7 @@ async function checkAgendaAndSendEmail() {
       }
       await sendAgendaEmail(allAgendas);
       // console.log(allAgendas);
-    } else if (when_to_send === "weekday") {
+    } else if (isActive && when_to_send === "weekday") {
       const day = new Date();
       const weekday = day.getDay();
 

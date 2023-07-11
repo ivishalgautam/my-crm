@@ -18,15 +18,20 @@ async function login(req, res) {
       process.env.SECRET_KEY
     );
     res.cookie("isAdmin", user.isAdmin, {
-      expires: new Date(Date.now() + 3600000), // Cookie expiration time (1 hour)
-      httpOnly: false, // The cookie is inaccessible to JavaScript
-      secure: false, // The cookie is sent only over HTTPS
+      path: "http://localhost:5173/",
     });
-    res.cookie("token", accessToken);
-    res.json({ ...additionalData, accessToken });
+    res.cookie("token", accessToken, {
+      path: "http://localhost:5173/",
+    });
+    res.json({ ...additionalData, token: accessToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+}
+
+// read
+async function readUser(req, res) {
+  res.json(req.user);
 }
 
 module.exports = login;
