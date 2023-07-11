@@ -4,6 +4,8 @@ const User = require("../../model/User");
 async function createUser(req, res) {
   try {
     const { name, email, password, phone, designation } = req.body;
+    const userExist = await User.findOne({ email });
+    if (userExist) return res.json({ error: "try with defferent email id!" });
     const user = new User({ name, email, password, phone, designation });
     await user.save();
     res.json(user);

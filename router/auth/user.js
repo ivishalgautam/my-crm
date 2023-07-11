@@ -6,11 +6,16 @@ const {
   getUsers,
 } = require("../../controller/auth/userController");
 const { validateId } = require("../../middleware/verifyId");
+const {
+  verifyTokenAndAdmin,
+  verifyToken,
+  verifyTokenAndAuthorization,
+} = require("../../middleware/verifyToken");
 
 const router = require("express").Router();
 
 //POST
-router.post("/", createUser);
+router.post("/", verifyTokenAndAuthorization, createUser);
 
 // PUT
 router.put("/:id", validateId, updateUser);

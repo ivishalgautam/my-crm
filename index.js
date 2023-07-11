@@ -5,6 +5,7 @@ const PORT = process.env.PORT;
 const cors = require("cors");
 const connectDB = require("./database/db");
 const morgan = require("morgan");
+const CookieParser = require("cookie-parser");
 
 // routes import
 const authRoutes = require("./router/auth/login");
@@ -25,10 +26,11 @@ const dealFieldRoutes = require("./router/deal/dealField");
 const customInputs = require("./router/customInputs");
 const contactData = require("./router/data");
 
+connectDB();
 app.use(express.json());
 app.use(cors());
-connectDB();
 app.use(morgan("tiny"));
+app.use(CookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
