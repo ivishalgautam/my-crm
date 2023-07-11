@@ -9,7 +9,6 @@ async function login(req, res) {
     if (user.password !== req.body.password)
       return res.status(401).json({ error: "Wrong email or password!" });
 
-    const { password, ...additionalData } = user._doc;
     const accessToken = jwt.sign(
       {
         id: user._id,
@@ -17,6 +16,11 @@ async function login(req, res) {
       },
       process.env.SECRET_KEY
     );
+
+    res.cookie("token", accessToken, {
+      domain: "localhost",
+    });
+
     res.json({ token: accessToken, loggedIn: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -25,6 +29,9 @@ async function login(req, res) {
 
 // read
 async function readUser(req, res) {
+  const cookies = req.cookies;
+  // if (!cookies) return res.json("cookie not found");
+  // console.log(cookies);
   res.json(req.user);
 }
 
