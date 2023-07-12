@@ -106,33 +106,14 @@ const ContactSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "Dropdown" },
     ],
     customInputs: [{ type: mongoose.Schema.Types.ObjectId, ref: "TextInput" }],
-    role: {
+    followUps: [{ type: mongoose.Schema.Types.ObjectId, ref: "FollowUp" }],
+    status: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      enum: ["pending", "confirmed", "closed", "not interested"],
+      default: "pending",
     },
   },
   { timestamps: true }
 );
-
-// Function to dynamically add custom fields to the schema
-// function addCustomFields(fields) {
-//   const customFieldsSchema = {};
-//   for (const fieldName in fields) {
-//     customFieldsSchema[fieldName] = {
-//       type: mongoose.Schema.Types.Mixed,
-//     };
-//   }
-//   ContactSchema.add(customFieldsSchema);
-// }
-
-// Example usage
-// const dynamicFields = {
-//   field1: "Some value",
-//   field2: 123,
-//   field3: true,
-// };
-
-// addCustomFields(dynamicFields);
 
 module.exports = mongoose.model("Contact", ContactSchema);

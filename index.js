@@ -25,12 +25,34 @@ const dealStageRoutes = require("./router/deal/dealStage");
 const dealFieldRoutes = require("./router/deal/dealField");
 const customInputs = require("./router/customInputs");
 const contactData = require("./router/data");
+const {
+  verifyToken,
+  verifyTokenAndAdmin,
+} = require("./middleware/verifyToken");
 
 connectDB();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("tiny"));
 app.use(CookieParser());
+
+// app.use((req, res, next) => {
+//   if (req.path !== "/api/auth/login") {
+//     verifyToken(req, res, next);
+//   } else {
+//     next();
+//   }
+// });
+
+// app.use((req, res, next) => {
+//   // console.log(req.method);
+//   if (req.method === "DELETE") {
+//     console.log("delete");
+//     verifyTokenAndAdmin(req, res, next);
+//   } else {
+//     next();
+//   }
+// });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

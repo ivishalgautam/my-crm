@@ -4,6 +4,7 @@ const {
   deleteDealType,
   getDealType,
   getDealTypes,
+  getDealTypeStages,
 } = require("../../controller/deal/dealController");
 const { validateId } = require("../../middleware/verifyId");
 
@@ -21,5 +22,6 @@ router.delete("/:id", validateId, deleteDealType);
 // GET
 router.get("/:id", validateId, getDealType);
 router.get("/", getDealTypes);
+router.get("/:id/stages", getDealTypeStages);
 
 module.exports = router;

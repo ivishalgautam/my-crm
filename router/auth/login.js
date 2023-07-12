@@ -10,7 +10,7 @@ const { verifyToken } = require("../../middleware/verifyToken");
 router.post("/login", login);
 
 // GET
-router.get("/read", verifyToken, readUser); // protected route
+router.get("/read", verifyToken, readUser);
 router.get("/logout", logout);
 
 module.exports = router;

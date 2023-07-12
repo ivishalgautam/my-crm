@@ -14,22 +14,11 @@ async function login(req, res) {
         id: user._id,
         isAdmin: user.isAdmin,
       },
-      process.env.SECRET_KEY
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "2d",
+      }
     );
-
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 2); // expires in 2 day
-    res.cookie("token", token, {
-      domain: "dashboard.bksystems.co",
-      path: "/",
-      expires: expirationDate,
-      // httpOnly: true,
-    });
-    // res.cookie("admin", user.isAdmin, {
-    //   domain: "dashboard.bksystems.co",
-    //   expires: expirationDate,
-    //   // httpOnly: true,
-    // });
 
     const { password, ...userData } = user._doc;
     res.json({ user: userData, token });
@@ -40,10 +29,10 @@ async function login(req, res) {
 
 // read
 async function readUser(req, res) {
-  const cookies = req.cookies;
-  // if (!cookies) return res.json("cookie not found");
-  console.log(cookies);
-  res.json(cookies);
+  if (req.user.isAdmin) {
+    console.log("this is admin");
+  }
+  res.json(req.user);
 }
 
 // logout

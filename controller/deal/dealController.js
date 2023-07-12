@@ -228,6 +228,18 @@ async function getDealTypes(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+// get all deal types
+async function getDealTypeStages(req, res) {
+  try {
+    const deals = await DealType.findById(req.params.id).populate("stage");
+    if (!deals)
+      return res.status(404).json({ error: "There are no deal types found!" });
+    const { stage } = deals._doc;
+    res.json(stage);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
 // ----------- deal stage controllers ---------------
 // create deal stage
@@ -310,6 +322,7 @@ module.exports = {
   deleteDealType,
   getDealType,
   getDealTypes,
+  getDealTypeStages,
   updateDealStage,
   deleteDealStage,
   getDealStage,

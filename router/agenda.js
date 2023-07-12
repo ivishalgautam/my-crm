@@ -5,15 +5,16 @@ const {
   getAgenda,
 } = require("../controller/agenda-assist/agendaController");
 const { validateId } = require("../middleware/verifyId");
+const { verifyTokenAndAdmin } = require("../middleware/verifyToken");
 // require("../controller/email/agendaEmail");
 
 // POST
-router.post("/", addAgenda);
+router.post("/", verifyTokenAndAdmin, addAgenda);
 
 // UPDATE
-router.put("/:id", validateId, updateAgenda);
+router.put("/:id", validateId, verifyTokenAndAdmin, updateAgenda);
 
 // GET
-router.get("/", getAgenda);
+router.get("/", verifyTokenAndAdmin, getAgenda);
 
 module.exports = router;
