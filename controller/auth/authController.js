@@ -19,11 +19,11 @@ async function login(req, res) {
 
     res.cookie("token", token, {
       domain: "dashboard.bksystems.co",
-      httpOnly: true,
+      // httpOnly: true,
     });
     res.cookie("admin", user.isAdmin, {
       domain: "dashboard.bksystems.co",
-      httpOnly: true,
+      // httpOnly: true,
     });
 
     const { password, ...userData } = user._doc;
