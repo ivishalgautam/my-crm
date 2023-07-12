@@ -18,11 +18,11 @@ async function login(req, res) {
     );
 
     res.cookie("token", token, {
-      domain: "dashboard.bksystems.co",
+      domain: "https://dashboard.bksystems.co/",
       // httpOnly: true,
     });
     res.cookie("admin", user.isAdmin, {
-      domain: "dashboard.bksystems.co",
+      domain: "https://dashboard.bksystems.co/",
       // httpOnly: true,
     });
 
