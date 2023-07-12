@@ -18,11 +18,11 @@ async function login(req, res) {
     );
 
     res.cookie("token", token, {
-      domain: "localhost:4000",
+      domain: "dashboard.bksystems.co",
       httpOnly: true,
     });
     res.cookie("admin", user.isAdmin, {
-      domain: "localhost:4000",
+      domain: "dashboard.bksystems.co",
       httpOnly: true,
     });
 
