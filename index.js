@@ -49,6 +49,9 @@ app.use("/api/deal-stages", dealStageRoutes);
 app.use("/api/deal-fields", dealFieldRoutes);
 app.use("/api/custom-inputs", customInputs);
 app.use("/api/contact-data", contactData);
+app.get("/", (req, res) => {
+  res.json({ message: "welcome to my crm." });
+});
 
 app.listen(PORT, () => {
   console.log(`server running on localhost:${PORT}`);

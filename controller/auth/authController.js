@@ -5,11 +5,11 @@ const jwt = require("jsonwebtoken");
 async function login(req, res) {
   try {
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).json({ error: "user not found!" });
+    if (!user) return res.status(404).json({ error: "user not exist!" });
     if (user.password !== req.body.password)
-      return res.status(401).json({ error: "Wrong email or password!" });
+      return res.status(401).json({ error: "wrong credentials!" });
 
-    const accessToken = jwt.sign(
+    const token = jwt.sign(
       {
         id: user._id,
         isAdmin: user.isAdmin,
@@ -17,11 +17,15 @@ async function login(req, res) {
       process.env.SECRET_KEY
     );
 
-    res.cookie("token", accessToken, {
-      domain: "localhost",
+    res.cookie("token", token, {
+      domain: "localhost:4000",
+    });
+    res.cookie("admin", user.isAdmin, {
+      domain: "localhost:4000",
     });
 
-    res.json({ token: accessToken, loggedIn: true });
+    const { password, ...userData } = user._doc;
+    res.json({ user: userData, token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -31,8 +35,15 @@ async function login(req, res) {
 async function readUser(req, res) {
   const cookies = req.cookies;
   // if (!cookies) return res.json("cookie not found");
-  // console.log(cookies);
-  res.json(req.user);
+  console.log(cookies);
+  res.json(cookies);
 }
 
-module.exports = { login, readUser };
+// logout
+async function logout(req, res) {
+  res.clearCookie("admin");
+  res.clearCookie("token");
+  res.json(req.cookies);
+}
+
+module.exports = { login, readUser, logout };
