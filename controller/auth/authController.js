@@ -17,14 +17,19 @@ async function login(req, res) {
       process.env.SECRET_KEY
     );
 
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 2); // expires in 2 day
     res.cookie("token", token, {
       domain: "dashboard.bksystems.co",
+      path: "/",
+      expires: expirationDate,
       // httpOnly: true,
     });
-    res.cookie("admin", user.isAdmin, {
-      domain: "dashboard.bksystems.co",
-      // httpOnly: true,
-    });
+    // res.cookie("admin", user.isAdmin, {
+    //   domain: "dashboard.bksystems.co",
+    //   expires: expirationDate,
+    //   // httpOnly: true,
+    // });
 
     const { password, ...userData } = user._doc;
     res.json({ user: userData, token });
