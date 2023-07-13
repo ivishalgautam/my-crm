@@ -33,7 +33,10 @@ const {
 
 connectDB();
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+};
+app.use(cors(corsOptions));
 app.use(morgan("tiny"));
 app.use(CookieParser());
 
