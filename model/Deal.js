@@ -68,7 +68,7 @@ const DealSchema = new mongoose.Schema(
     probability: { type: String, default: "" },
     status: {
       type: String,
-      enum: ["Active", "Won", "Lost", "Back Burner"],
+      enum: ["active", "won", "lost", "back burner"],
       default: "Active",
     },
     isShowOnDeals: { type: Boolean, default: true },

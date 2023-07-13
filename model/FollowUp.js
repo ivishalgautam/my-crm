@@ -1,12 +1,12 @@
 const { default: mongoose } = require("mongoose");
 
-const FollowUpSchema = new mongoose.schema({
+const FollowUpSchema = new mongoose.Schema({
   by: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   comment: {
-    type: string,
+    type: String,
   },
   date: {
     type: Date,

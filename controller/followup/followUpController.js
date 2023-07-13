@@ -1,3 +1,4 @@
+const Contact = require("../../model/Contact");
 const FollowUp = require("../../model/FollowUp");
 
 // create follow up
@@ -6,6 +7,39 @@ async function createFollowUp(req, res) {
     const followUp = new FollowUp(req.body);
     await followUp.save();
     res.json(followUp);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// create follow up
+async function createContactFollowUp(req, res) {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(404).json({ error: "Contact not exist!" });
+
+    const followUp = new FollowUp(req.body);
+    await followUp.save();
+
+    await Contact.findByIdAndUpdate(req.params.id, {
+      $set: { followUps: followUp._id },
+    });
+    res.json(contact);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// get all follow ups
+async function getFollowUps(req, res) {
+  try {
+    const followUps = await FollowUp.find({}).populate({
+      path: "by",
+      model: "User",
+      select: "name",
+    });
+    if (followUps.length <= 0) res.json({ error: "there are no follow ups" });
+    res.json(followUps);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -50,19 +84,9 @@ async function getFollowUp(req, res) {
   }
 }
 
-// get all follow ups
-async function getFollowUps(req, res) {
-  try {
-    const followUps = await FollowUp.find();
-    if (followUps.length <= 0) res.json({ error: "there are no follow ups" });
-    res.json(followUps);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
 module.exports = {
   createFollowUp,
+  createContactFollowUp,
   updateFollowUp,
   deleteFollowUp,
   getFollowUp,

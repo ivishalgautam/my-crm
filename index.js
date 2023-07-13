@@ -25,6 +25,7 @@ const dealStageRoutes = require("./router/deal/dealStage");
 const dealFieldRoutes = require("./router/deal/dealField");
 const customInputs = require("./router/customInputs");
 const contactData = require("./router/data");
+const followUpRoutes = require("./router/followUp");
 const {
   verifyToken,
   verifyTokenAndAdmin,
@@ -36,23 +37,23 @@ app.use(cors());
 app.use(morgan("tiny"));
 app.use(CookieParser());
 
-// app.use((req, res, next) => {
-//   if (req.path !== "/api/auth/login") {
-//     verifyToken(req, res, next);
-//   } else {
-//     next();
-//   }
-// });
+app.use((req, res, next) => {
+  if (req.path !== "/api/auth/login") {
+    verifyToken(req, res, next);
+  } else {
+    next();
+  }
+});
 
-// app.use((req, res, next) => {
-//   // console.log(req.method);
-//   if (req.method === "DELETE") {
-//     console.log("delete");
-//     verifyTokenAndAdmin(req, res, next);
-//   } else {
-//     next();
-//   }
-// });
+app.use((req, res, next) => {
+  // console.log(req.method);
+  if (req.method === "DELETE") {
+    console.log("delete");
+    verifyTokenAndAdmin(req, res, next);
+  } else {
+    next();
+  }
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -71,6 +72,7 @@ app.use("/api/deal-stages", dealStageRoutes);
 app.use("/api/deal-fields", dealFieldRoutes);
 app.use("/api/custom-inputs", customInputs);
 app.use("/api/contact-data", contactData);
+app.use("/api/follow-ups", followUpRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "welcome to my crm." });
 });

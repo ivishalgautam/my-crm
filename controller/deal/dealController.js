@@ -231,10 +231,8 @@ async function getDealTypes(req, res) {
 // get all deal types
 async function getDealTypeStages(req, res) {
   try {
-    const deals = await DealType.findById(req.params.id).populate("stage");
-    if (!deals)
-      return res.status(404).json({ error: "There are no deal types found!" });
-    const { stage } = deals._doc;
+    const dealtype = await DealType.findById(req.params.id).populate("stage");
+    const { stage } = dealtype._doc;
     res.json(stage);
   } catch (error) {
     res.status(500).json({ error: error.message });

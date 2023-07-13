@@ -74,6 +74,15 @@ async function getContacts(req, res) {
       "referral",
       "tags",
       "deals",
+      {
+        path: "followUps",
+        model: "FollowUp",
+        populate: {
+          path: "by",
+          model: "User",
+          select: "name isAdmin",
+        },
+      },
     ]);
     res.json(contacts);
   } catch (error) {
@@ -95,6 +104,15 @@ async function getContact(req, res) {
       "referral",
       "tags",
       "deals",
+      {
+        path: "followUps",
+        model: "FollowUp",
+        populate: {
+          path: "by",
+          model: "User",
+          select: "name isAdmin",
+        },
+      },
     ]);
     res.json(contact);
   } catch (error) {
