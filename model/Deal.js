@@ -69,7 +69,7 @@ const DealSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "won", "lost", "back burner"],
-      default: "Active",
+      default: "active",
     },
     isShowOnDeals: { type: Boolean, default: true },
     expectedCloseDate: { type: Date, default: "" },
