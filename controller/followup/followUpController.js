@@ -24,7 +24,7 @@ async function createContactFollowUp(req, res) {
     await Contact.findByIdAndUpdate(req.params.id, {
       $set: { followUps: followUp._id },
     });
-    res.json(contact);
+    res.json(followUp);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
