@@ -92,6 +92,11 @@ const ContactSchema = new mongoose.Schema(
         ref: "Appointment",
       },
     ],
+    attachments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     socials: [{ type: mongoose.Schema.Types.ObjectId, ref: "Social" }],
     referredBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     source: [{ type: mongoose.Schema.Types.ObjectId, ref: "Source" }],
