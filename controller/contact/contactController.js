@@ -115,6 +115,7 @@ async function getContact(req, res) {
         },
       },
     ]);
+    if (!contact) return res.status(404).json({ error: "Contact not found!" });
     res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });
