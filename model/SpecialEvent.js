@@ -1,9 +1,9 @@
 const { default: mongoose } = require("mongoose");
 
 const SpecialEventSchema = new mongoose.Schema({
-  occasion: {
+  occassion: {
     type: String,
-    enum: ["Birthday", "Anniversary", "Other"],
+    enum: ["birthday", "anniversary", "Other"],
     required: true,
   },
   name: {

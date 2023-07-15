@@ -7,7 +7,7 @@ async function addSocial(req, res) {
     const contact = await Contact.findById(req.params.id);
     if (!contact) return res.status(404).json({ error: "Contact not found!" });
 
-    const social = new Social(req.body);
+    const social = new Social(req.body.socials);
     await social.save();
 
     await Contact.findByIdAndUpdate(req.params.id, {

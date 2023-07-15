@@ -27,6 +27,7 @@ const dealFieldRoutes = require("./router/deal/dealField");
 const customInputs = require("./router/customInputs");
 const contactData = require("./router/data");
 const followUpRoutes = require("./router/followUp");
+const dashBoardRoutes = require("./router/dashboard");
 const {
   verifyToken,
   verifyTokenAndAdmin,
@@ -79,6 +80,7 @@ app.use("/api/deal-fields", dealFieldRoutes);
 app.use("/api/custom-inputs", customInputs);
 app.use("/api/contact-data", contactData);
 app.use("/api/follow-ups", followUpRoutes);
+app.use("/api/dashboard", dashBoardRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "welcome to my crm." });
 });
