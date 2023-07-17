@@ -11,7 +11,7 @@ async function addSpecialEvent(req, res) {
     await specialEvent.save();
 
     await Contact.findByIdAndUpdate(req.params.id, {
-      $push: { appointments: specialEvent._id },
+      $push: { specialEvents: specialEvent._id },
     });
     res.json(contact);
   } catch (error) {
