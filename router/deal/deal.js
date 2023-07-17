@@ -12,10 +12,10 @@ const router = require("express").Router();
 
 // POST
 router.post("/", createDeal);
+router.post("/:id/add-deal", validateId, createContactDeal);
 
 // UPDATE
 router.put("/:id", validateId, updateDeal);
-router.put("/:id/add-deal", validateId, createContactDeal);
 
 // DELETE
 router.delete("/:id", validateId, deleteDeal);
