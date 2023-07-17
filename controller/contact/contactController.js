@@ -90,8 +90,11 @@ async function getContacts(req, res) {
       "referrals",
       "referral_level",
       "tags",
-      { path: "deals", model: "Deal" },
-      { path: "stage", model: "DealStage" },
+      {
+        path: "deals",
+        model: "Deal",
+        populate: { path: "type", model: "DealType" },
+      },
       {
         path: "followUps",
         model: "FollowUp",
@@ -124,8 +127,11 @@ async function getContact(req, res) {
       "referrals",
       "referral_level",
       "tags",
-      { path: "deals", model: "Deal" },
-      { path: "stage", model: "DealStage" },
+      {
+        path: "deals",
+        model: "Deal",
+        populate: { path: "type", model: "DealType" },
+      },
       {
         path: "followUps",
         model: "FollowUp",
