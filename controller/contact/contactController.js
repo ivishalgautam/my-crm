@@ -19,6 +19,7 @@ async function createContact(req, res) {
         await Contact.findByIdAndDelete(newContact._id);
         return res.status(404).json({ error: "reffered by not exist" });
       }
+      console.log(contact);
     }
     res.json(newContact);
   } catch (error) {
