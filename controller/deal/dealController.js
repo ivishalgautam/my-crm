@@ -27,7 +27,7 @@ async function createContactDeal(req, res) {
     if (!updatedContact) {
       await Deal.findByIdAndRemove(deal._id);
     }
-    res.json(updatedContact);
+    res.json(deal);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
