@@ -7,10 +7,10 @@ const Todo = require("../../model/todo/Todo");
 // creates contact
 async function createContact(req, res) {
   try {
-    const newContact = new Contact(req.body);
     if (req.body.referredBy === "") {
-      newContact.referredBy = [];
+      req.body.referredBy = [];
     }
+    const newContact = new Contact(req.body);
     await newContact.save();
 
     if (newContact.referredBy.length > 0 && newContact.referredBy !== "") {
