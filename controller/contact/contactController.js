@@ -8,7 +8,7 @@ const Todo = require("../../model/todo/Todo");
 async function createContact(req, res) {
   try {
     const newContact = new Contact(req.body);
-    // await newContact.save();
+    await newContact.save();
 
     if (newContact.referredBy.length > 0) {
       const contact = await Contact.findByIdAndUpdate(
