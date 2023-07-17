@@ -13,7 +13,7 @@ async function createContact(req, res) {
     if (newContact.referredBy.length > 0) {
       const contact = await Contact.findByIdAndUpdate(
         newContact.referredBy[0],
-        { $push: { referral: newContact._id } }
+        { $push: { referrals: newContact._id } }
       );
       if (!contact) {
         await Contact.findByIdAndDelete(newContact._id);
@@ -84,7 +84,8 @@ async function getContacts(req, res) {
       "referredBy",
       "source",
       "category",
-      "referral",
+      "referrals",
+      "referral_level",
       "tags",
       "deals",
       {
@@ -116,7 +117,8 @@ async function getContact(req, res) {
       "referredBy",
       "source",
       "category",
-      "referral",
+      "referrals",
+      "referral_level",
       "tags",
       "deals",
       {

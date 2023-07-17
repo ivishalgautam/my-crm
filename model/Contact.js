@@ -106,7 +106,8 @@ const ContactSchema = new mongoose.Schema(
     referredBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
     source: [{ type: mongoose.Schema.Types.ObjectId, ref: "Source" }],
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
-    referral: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    referrals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
+    referral_level: [{ type: mongoose.Schema.Types.ObjectId, ref: "Referral" }],
     tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     deals: [{ type: mongoose.Schema.Types.ObjectId, ref: "Deal" }],
     customCheckBoxes: [
