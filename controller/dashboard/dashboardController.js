@@ -128,4 +128,22 @@ async function getEvents(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-module.exports = { getRecentContact, getOverDueTodos, getEvents };
+
+// appointments
+async function upcomingAppointments(req, res) {
+  try {
+    const contacts = await Contact.find(
+      {},
+      { appointments: 1, firstname: 1 }
+    ).populate("appointments");
+    res.json(contacts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+module.exports = {
+  getRecentContact,
+  getOverDueTodos,
+  getEvents,
+  upcomingAppointments,
+};

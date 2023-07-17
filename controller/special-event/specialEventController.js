@@ -1,11 +1,19 @@
+const Contact = require("../../model/Contact");
 const SpecialEvent = require("../../model/SpecialEvent");
 
 // creates a new special event
 async function addSpecialEvent(req, res) {
   try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(404).json({ error: "Contact not exist" });
+
     const specialEvent = new SpecialEvent(req.body);
     await specialEvent.save();
-    res.json(specialEvent);
+
+    await Contact.findByIdAndUpdate(req.params.id, {
+      $push: { appointments: specialEvent._id },
+    });
+    res.json(contact);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

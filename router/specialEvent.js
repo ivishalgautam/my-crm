@@ -9,7 +9,7 @@ const {
 const { validateId } = require("../middleware/verifyId");
 
 // POST
-router.post("/", addSpecialEvent);
+router.post("/:id", addSpecialEvent);
 
 // PUT
 router.put("/:id", validateId, updateSpecialEvent);

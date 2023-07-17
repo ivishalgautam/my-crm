@@ -2,6 +2,7 @@ const {
   getRecentContact,
   getOverDueTodos,
   getEvents,
+  upcomingAppointments,
 } = require("../controller/dashboard/dashboardController");
 
 const router = require("express").Router();
@@ -14,4 +15,7 @@ router.get("/todos", getOverDueTodos);
 
 // events
 router.get("/events", getEvents);
+
+// upcoming appointments
+router.get("/upcoming-appointments", upcomingAppointments);
 module.exports = router;
