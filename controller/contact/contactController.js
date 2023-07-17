@@ -98,7 +98,7 @@ async function getContact(req, res) {
       "notes",
       "todos",
       "appointments",
-      "specialEvents",
+      { path: "specialEvents", model: "SpecialEvent" },
       { path: "attachments", model: "Attachment" },
       "socials",
       "referredBy",
