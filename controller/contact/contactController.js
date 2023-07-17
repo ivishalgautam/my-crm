@@ -8,7 +8,18 @@ const Todo = require("../../model/todo/Todo");
 async function createContact(req, res) {
   try {
     const newContact = new Contact(req.body);
-    await newContact.save();
+    // await newContact.save();
+
+    if (newContact.referredBy.length > 0) {
+      const contact = await Contact.findByIdAndUpdate(
+        newContact.referredBy[0],
+        { $push: { referral: newContact._id } }
+      );
+      if (!contact) {
+        await Contact.findByIdAndDelete(newContact._id);
+        return res.status(404).json({ error: "reffered by not exist" });
+      }
+    }
     res.json(newContact);
   } catch (error) {
     res.status(500).json({ error: error.message });
