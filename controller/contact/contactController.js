@@ -8,9 +8,12 @@ const Todo = require("../../model/todo/Todo");
 async function createContact(req, res) {
   try {
     const newContact = new Contact(req.body);
+    if (req.body.referredBy === "") {
+      newContact.referredBy = [];
+    }
     await newContact.save();
 
-    if (newContact.referredBy.length > 0) {
+    if (newContact.referredBy.length > 0 && newContact.referredBy !== "") {
       const contact = await Contact.findByIdAndUpdate(
         newContact.referredBy[0],
         { $push: { referrals: newContact._id } }
