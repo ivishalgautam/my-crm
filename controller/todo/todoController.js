@@ -58,7 +58,7 @@ async function addTodoToContact(req, res) {
       { new: true }
     );
 
-    res.json(contact);
+    res.json(newTodo);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
