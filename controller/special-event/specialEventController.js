@@ -13,7 +13,7 @@ async function addSpecialEvent(req, res) {
     await Contact.findByIdAndUpdate(req.params.id, {
       $push: { specialEvents: specialEvent._id },
     });
-    res.json(contact);
+    res.json(specialEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
