@@ -29,7 +29,7 @@ async function addNoteToContact(req, res) {
       { new: true }
     );
 
-    res.json(contact);
+    res.json(newNote);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
