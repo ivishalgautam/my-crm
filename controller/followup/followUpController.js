@@ -25,7 +25,7 @@ async function createContactFollowUp(req, res) {
       $push: { followUps: followUp._id },
     });
 
-    res.json(followUp.populate("by"));
+    res.json(followUp);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
