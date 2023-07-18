@@ -29,13 +29,13 @@ const AppointmentSchema = new mongoose.Schema(
     details: {
       type: String,
     },
-    contact: [
+    with: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Contact",
+        ref: "User",
       },
     ],
-    deal: { type: String },
+    // deal: { type: String },
   },
   { timestamps: true }
 );

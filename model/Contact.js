@@ -14,7 +14,6 @@ const ContactSchema = new mongoose.Schema(
     lastname: {
       primary: {
         type: String,
-        required: true,
       },
       other: {
         type: String,
@@ -31,7 +30,6 @@ const ContactSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: true,
     },
     company: {
       type: String,
@@ -40,7 +38,6 @@ const ContactSchema = new mongoose.Schema(
     address: {
       stAddress: {
         type: String,
-        required: true,
       },
       city: {
         type: String,
@@ -48,11 +45,9 @@ const ContactSchema = new mongoose.Schema(
       },
       state: {
         type: String,
-        required: true,
       },
       zip: {
         type: String,
-        required: true,
       },
     },
     phoneNumbers: [
