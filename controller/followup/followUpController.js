@@ -24,8 +24,11 @@ async function createContactFollowUp(req, res) {
     await Contact.findByIdAndUpdate(req.params.id, {
       $push: { followUps: followUp._id },
     });
-    const { by, ...restData } = followUp._doc;
-    res.json(restData);
+    const myFollowUp = await FollowUp.findById(followUp._id).populate({
+      path: "by",
+      model: "User",
+    });
+    res.json(myFollowUp);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
