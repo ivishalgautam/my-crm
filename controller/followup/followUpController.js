@@ -23,6 +23,7 @@ async function createContactFollowUp(req, res) {
 
     await Contact.findByIdAndUpdate(req.params.id, {
       $push: { followUps: followUp._id },
+      $set: { status: followUp.status },
     });
     const myFollowUp = await FollowUp.findById(followUp._id).populate({
       path: "by",
